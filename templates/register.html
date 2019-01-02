@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="post">
+    {{form.csrf_token}}
+    {# 姓名 #}
+    <p>{{form.user_name.label}}</p>
+    <p>{{form.user_name}}</p>
+    {% for msg in form.user_name.errors %}
+    <p>{{msg}}</p>
+    {% endfor %}
+
+    {# 密码 #}
+    <p>{{form.password.label}}</p>
+    <p>{{form.password}}</p>
+    {% for msg in form.password.errors %}
+    <p>{{msg}}</p>
+    {% endfor %}
+
+    {# 确认密码 #}
+    <p>{{form.password2.label}}</p>
+    <p>{{form.password2}}</p>
+    {% for msg in form.password2.errors %}
+    <p>{{msg}}</p>
+    {% endfor %}
+
+    {# 提交 #}
+    {{form.submit}}
+
+</form>
+</body>
+</html>
