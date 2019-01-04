@@ -5,6 +5,11 @@ from flask_wtf import FlaskForm
 from wtforms import StringField,SubmitField
 from wtforms.validators import DataRequired
 
+#数据库迁移
+from flask_script import Manager
+from flask_migrate import Migrate,MigrateCommand
+
+
 app = Flask(__name__)
 
 #引入mysql驱动
@@ -23,6 +28,13 @@ app.config.from_object(Config)
 
 db = SQLAlchemy(app)
 
+#创建flask脚本工具管理对象
+manager = Manager(app)
+#创建数据库迁移工具对象
+Migrate(app,db)
+#向manager对象中添加数据的操作命令
+manager.add_command("db",MigrateCommand)
+
 #定义表
 
 class Author(db.Model):
@@ -31,6 +43,8 @@ class Author(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(32),unique=True)
     books = db.relationship("Book",backref="author")
+    email = db.Column(db.String(64))
+    mobile = db.Column(db.String(64))
 
 class Book(db.Model):
     """书籍表"""
@@ -96,7 +110,7 @@ def delete_book2():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+
     # db.drop_all()
     # db.create_all()
     # au_xi = Author(name='我吃西红柿')
@@ -112,3 +126,7 @@ if __name__ == '__main__':
     # = Book(name='冰火魔厨', author_id=au_san.id)
     # db.session.add_all([bk_xi, bk_xi2, bk_qian, bk_san])
     # db.session.commit()
+
+    # app.run(debug=True)
+    #通过manager启动
+    manager.run()
