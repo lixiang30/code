@@ -1,4 +1,4 @@
-from flask import Flask,render_template
+from flask import Flask,render_template,request,redirect,url_for,jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 from flask_wtf import FlaskForm
@@ -65,6 +65,35 @@ def index():
     #查询数据库
     authors_li = Author.query.all()
     return render_template("author_book.html",authors = authors_li,form=form)
+
+@app.route("/delete_book",methods=["POST"])
+def delete_book():
+    """删除书籍"""
+    #提取参数
+    #如果前端发送的请求体数据是json格式，get_json()会解析成字典
+    #get_json要求前端发送的数据Content_type:application/json
+    req_dict = request.get_json()
+    book_id = req_dict.get("book_id")
+
+    #删除数据
+    book = Book.query.get(book_id)
+    db.session.delete(book)
+    db.session.commit()
+
+    #重定向
+    return jsonify(code=0,message="OK")
+
+@app.route("/delete_book2",methods=["GET"])
+def delete_book2():
+    #获取参数
+    book_id = request.args.get("book_id")
+    #删除数据
+    book = Book.query.get(book_id)
+    db.session.delete(book)
+    db.session.commit()
+    return redirect(url_for("index"))
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
