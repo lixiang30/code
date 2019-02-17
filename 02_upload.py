@@ -6,7 +6,7 @@ app = Flask(__name__)
 @app.route("/upload",methods=["POST"])
 def upload():
    """接受前端传过来的文件"""
-   file_obj = request.files.get("pic")
+   file_obj = request.files.get("pic") #文件名叫pic
    if  file_obj is None:
        # 表示没有发送文件
         return "未上传文件"

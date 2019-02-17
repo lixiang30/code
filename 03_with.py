@@ -3,9 +3,13 @@
 #创建一个文件对象
 f = open("./1.text","w")
 # 向文件写内容
-f.write("hello flask")
+try:
+    f.write("hello flask")
+except Exception:
+    pass
+finally:
 #关闭文件
-f.close()
+    f.close()
 
 #########with方法#############
 
@@ -30,5 +34,5 @@ class Foo():
 
 with Foo() as foo:
     print("hello python")
-    a = 1 / 0
+    # a = 1 / 0
     print("111")

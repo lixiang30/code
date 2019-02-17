@@ -5,7 +5,7 @@ from werkzeug.routing import BaseConverter
 #          模块名，flask以这个模块所在的目录为总目录，默认这个目录中的static为静态目录，templates为模板目录
 app = Flask(__name__)
 
-@app.route("/goods/<int:goods_id>")
+@app.route("/goods/<int:goods_id>") #不加转换器类型,默认是普通字符串规则(除了/的规则)
 def goods_detail(goods_id):
     return "goods detail page,%s"%(goods_id)
 
@@ -31,7 +31,6 @@ class RegexConverter(BaseConverter):
         #使用url_for方法时自动被调用
         return value
 
-
 # 2 将自定义的转换器添加到flask中
 app.url_map.converters['re'] = RegexConverter
 app.url_map.converters['mobile'] = MobileConverter
@@ -43,7 +42,7 @@ def send_sms(mobile_num):
 
 @app.route("/index")
 def index():
-    url = url_for("send_sms",mobile_num=18875037237)
+    url = url_for("send_sms",mobile_num="18875037238")
     return redirect(url)
 
 

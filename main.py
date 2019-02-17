@@ -21,7 +21,7 @@ app.register_blueprint(app_cart,url_prefix="/cart")
 
 @app.route("/")
 def index():
-    return "index page"
+    return "index page guicorn"
 
 
 if __name__ == '__main__':

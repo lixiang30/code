@@ -11,7 +11,11 @@ def index():
     #
     name = request.form.get("name","zhangsan")
     age = request.form.get("age",18)
-    return "hello name=%s,age=%s" % (name,age)
+    city = request.args.get("city")
+    name2 = request.form.getlist("name")
+    print(request.data)
+    print(request.form)
+    return "hello name=%s,age=%s,city=%s,name2=%s" % (name,age,city,name2)
 
 if __name__ == "__main__":
     app.run(debug=True)
